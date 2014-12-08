@@ -1,0 +1,65 @@
+Assumptions, Requirements and Preliminary Steps:
+
+    *  The chroot project for GNU Radio assumes you've already installed the GNU Radio SDK.
+        * For background information on the GNU Radio SDK, visit 
+          http://gnuradio.org/redmine/projects/gnuradio/wiki/Embedded/2
+        * To download the sdk, visit
+          http://gnuradio.org/data/sdk/armv7hf
+            *  Download by clicking on the link to oecore-x86_64-armv7at2hf-vfp-neon-toolchain-nodistro.0.sh.
+            *  Run the shell file to establish the cross-compile environment and rootfs on your system.
+    *  To follow these instructions, you'll need root on your device.  It may be possible to perform equivalent steps without root, but we're not trying to be heroes, here.  We're trying to establish an environment for developing and testing code as quickly as possible.
+
+Installing the GNU Radio SDK filesystem on your device:
+
+    *  In the chroot project, go to host_scripts.
+    *  The create_img.sh script creates a linux disc image file from the SDK.  You later you will mount this disc image on your device.
+        *  >./create_img.sh
+        *  You will need sudo access... this is for mounting your disc image file in order to populate it with files from the SDK.
+        *  img size is the size of the filesystem... the SDK is between 2 and 4 GB at this time.
+        *  location of the sdk... this is the full path of the "rootfs" portion of the SDK
+        *  This operation takes between 3 and 5 minutes on a reasonable laptop.  It's okay.  You'll perform this step only as often as you need to update your SDK.
+        *  The script generates sdk.img.tar.gz in the host_scripts directory. 
+    *  Create a directory to store your sdk and other files... you'll need a lot of space. Generally, this should be on the (real or emulated) sdcard.  Here's a sequence of plausible commands.
+        *  on the device...
+        *  >cd /sdcard
+        *  >mkdir gnuradio
+        *  >su
+        *  #chmod 777 gnuradio
+    *  Now, transfer the archived disc image file to your device... You could do this via scp, adb, sshfs or any number of other tools.  We assume for the purposes of this README the device is running an Android OS, the host is connected via usb, and we use adb for communications with the device.
+        *  on the host... 
+        *  >adb push sdk.img.tar.gz
+        *  ...and this operation takes another 5 or so minutes over usb 2.0.
+    *  Create a directory in device system memory.
+        *  on the device...
+        *  >cd /data
+        *  >mkdir sdk
+        *  >su
+        *  #chmod 777 sdk        
+    *  Transfer the device_scripts and busybox to the device.
+        *  >adb push device_scripts /data/sdk/device_scripts
+        *  >adb push busybox /data/sdk  
+        *  >su
+        *  #chmod 766 busybox
+        *  #chmod 777 device_scripts 
+    *  Unpack your SDK disc image file.
+        *  >/data/sdk/busybox gunzip sdk.img.tar.gz
+        *  ...and this operation takes another 5 or so minutes.
+        *  >/data/sdk/busybox tar -xvf sdk.img.tar
+        *  ...another few minutes.
+
+Using the GNU Radio SDK filesystem:
+    
+    *  SDK-PyBOMBS interaction (another README) discusses the creation of a sandbox for code developed on top of the SDK.  We'll assume the sandbox is on the host at <path-to-pybombs>/target.tar.gz.  For iterative development, use PyBOMBS to cross compile projects, package them into the sandbox, and move the sandbox to to device (unpack it).  The chroot scripts will mount the sandbox into the chroot environment.
+        *  on the host...
+        *  >adb push <path-to-pybombs>/target.tar.gz /sdcard/gnuradio
+        *  on the device...
+        *  >/data/sdk/busybox gunzip target.tar.gz
+        *  >/data/sdk/busybox tar -xvf target.tar
+
+    *  The scripts in device_scripts help you establish a context so that you can mount, chroot into, and unmount the disc image.
+        *  on the device...
+        *  >cd /data/sdk/device_scripts
+        *  >./prep.sh
+            *  device name for sdcard applies if there's a real sdcard and if you need the prep script to mount that card.
+            *  mount point for sdk is the point where you'll mount the disc image
+            *  image file basename... the image file is sdk.img     
