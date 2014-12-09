@@ -21,11 +21,11 @@ fi
 
 if [ -z ${SD_BASE} ]
 then
-    echo "enter mount point for sdk [/mnt/sdcard]:"
+    echo "enter mount point for sdk [/sdcard/gnuradio]:"
     read inp
     if [ -z ${inp} ]
     then
-        inp=/mnt/sdcard
+        inp=/sdcard/gnuradio
     fi
     echo "SD_BASE=${inp}" >> config.dat
 else
@@ -47,11 +47,11 @@ fi
 
 if [ -z ${PREFIX} ]
 then
-    echo "enter prefix location [/mnt/sdcard/target]:"
+    echo "enter prefix location [/sdcard/gnuradio/sdk_target]:"
     read inp
     if [ -z ${inp} ]
     then
-        inp=/mnt/sdcard/target
+        inp=/sdcard/gnuradio/sdk_target
     fi
     echo "PREFIX=${inp}" >> config.dat
 else
@@ -60,11 +60,11 @@ fi
 
 if [ -z ${SYS} ]
 then
-    echo "enter host sys name [sys]:"
+    echo "enter host sys name [system]:"
     read inp
     if [ -z ${inp} ]
     then
-        inp=sys
+        inp=system
     fi
     echo "SYS=${inp}" >> config.dat
 else
@@ -73,11 +73,11 @@ fi
 
 if [ -z ${BB} ]
 then
-    echo "enter the busybox path [/data/busybox/busybox]:"
+    echo "enter the busybox path [/data/sdk/busybox]:"
     read inp
     if [ -z ${inp} ]
     then
-        inp=/data/busybox/busybox
+        inp=/data/sdk/busybox
     fi
     echo "BB=${inp}" >> config.dat
 else
@@ -113,11 +113,11 @@ fi
 
 if [ -z ${NEW_HOME} ]
 then
-    echo "enter HOME for chrooted shell [/data/gnuradio]:"
+    echo "enter HOME for chrooted shell [/data/sdk]:"
     read inp
     if [ -z ${inp} ]
     then
-        inp=/data/gnuradio
+        inp=/data/sdk
     fi
     echo "NEW_HOME=${inp}" >> config.dat
 else

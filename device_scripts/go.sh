@@ -6,7 +6,7 @@ export HOME=${NEW_HOME}
 
 if [ -e ${NEW_HOME}/.bash_profile ]
 then
-    echo "using existing bash_profile"
+    echo "using existing .bash_profile... find it in chroot's HOME"
 else
     echo "# sdk_generated .bash_profile" > ${NEW_HOME}/.bash_profile
     echo "# (from the go.sh portion of your prep command)" >> ${NEW_HOME}/.bash_profile
@@ -20,6 +20,9 @@ fi
 
 # Allow 'groups' to be found during chroot
 export PATH=/usr/bin:$PATH
+
+# Wipe any system LD_PRELOAD
+export LD_PRELOAD=
 
 # change root into Ubuntu
 # Make shell act as a login to run a login script

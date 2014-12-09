@@ -1,14 +1,15 @@
 # Once per boot prep for Ubuntu chroot
 
 #check for pesky symbolic link
-if [ -h ${SD_BASE} ]
+OLD_SD_BASE=${SD_BASE}
+SD_BASE=`readlink -f ${SD_BASE}`
+if ! [ ${OLD_SD_BASE} = ${SD_BASE} ]
 then
-    SD_BASE=`readlink ${SD_BASE}`
+    echo "resolved base is ${SD_BASE}"
 fi
 
 
 # Skip SD card activities if it is mounted
-EXIT_STATUS=0
 if [ ${SD_DEV} = "NONE" ]
 then
     echo "ignoring the sd card"
@@ -34,6 +35,14 @@ else
         fi
     fi
 fi
+
+for num in 0 1 2 3 4 5 6 7 8 9
+do
+    if ! [ -e /dev/loop${num} ]
+    then
+        ${BB} mknod /dev/loop${num} b 7 ${num}
+    fi
+done
 
 # Make these directories in the Ubuntu rootfs
 # map to the real ones in the Android rootfs.
