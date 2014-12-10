@@ -1,0 +1,34 @@
+PyBOMBS Integration with the GNU Radio SDK
+
+    *  Running PyBOMBS with the environment variablie PYBOMBS_SDK=True applies filters to PyBOMBS allowing your PyBOMBS instance to build cross-compiled code for ARM.
+
+    *  One PyBOMBS instance should be able to service a host build for your project set AND a cross-compiled ARM build.  Destinations for the installed code are entirely separate, PyBOMBS inventory files are separate, and CMake build directories are separate.  
+
+    *  Use of the GNU Radio SDK for overlaying cross-compiled projects is tested and documented for CMake projects.  At this time, PYBOMBS_SDK filters confiruation and install commands only for CMake projects.  Other systems may or may not work.
+
+    *  The first run with PYBOMBS_SDK=True accesses an additional section of PyBOMBS configuration variables allowing PyBOMBS to find the installed GNU Radio SDK instance.
+
+    *  configuration variables summary:
+    
+        *  sdk_prefix... During CMake configuration, this is given as CMAKE_INSTALL_PREFIX.  For the GNU Radio sdk, /usr is the correct answer.
+
+        *  sandbox... CMake will install cross-compiled code to this directory... note that PyBOMBS will not install code to the CMAKE_INSTALL_PREFIX but to the sandbox location instead.
+
+        *  device_prefix... A third prefix variable!  This variable affects the prefix value used for `PYBOMBS_SDK=True pybombs env` commands... The user will transfer the sandbox to an embedded device and use the chroot project scripts to mount the sandbox into a chrooted environment.  The device_prefix variable allows for installation of a setup_env.sh script into the sandbox where the prefix in the text of the setup_env.sh script itself matches the runtime context of the chroot environment... The chroot script will mount the sandbox prefix at /target/usr, so the default should work with the chroot project.
+
+        *  toolchain... The toolchain file for cross-compiling is part of the GNU Radio project... probably <path-to-pybombs>/src/gnuradio/cmake/Toolchains/oe-sdk_cross.cmake.
+        
+        *  env... The environment script provided with the sdk... probably <path-to-sdk>/oecore-x86_64/environment-setup-cortexa9hf-vfp-neon-oe-linux-gnuabi or similar.
+
+        *  inv... The PYBOMBS_SDK filters require a PyBOMBS inventory file distinct from the host inventory reflecting the state of the SDK together with all the projects built using PyBOMBS and the PYBOMBS_SDK filters.  The chroot project has an inventory file that should reflect the state of a clean SDK.  The variable inv must NOT be inventory.dat... that name's taken.
+
+        *  sdk_forepkgs... Same as forcepkgs, but for the PYBOMBS_SDK context.
+
+        *  sdk_forecbuild... Same as forcebuild, but for the PYBOMBS_SDK context.
+
+        *  sdk_satisfy_order... Same as satisfy_order, but for the PYBOMBS_SDK context.
+
+    *  After using PyBOMBS with the PYBOMBS_SDK filters to build OOT projects for the SDK, use the following command to package the sandbox for use on-device using the chroot project:
+       >PYBOMBS_SDK=True ./pybombs package
+    
+    * Running this command drops an archive of the sandbox called target.tar.gz into the pybombs top directory.   
