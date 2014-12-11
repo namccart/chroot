@@ -10,6 +10,8 @@ Assumptions, Requirements and Preliminary Steps:
            
     *  To follow these instructions, you'll need root on your device.  It may be possible to perform equivalent steps without root, but we're not trying to be heroes, here.  We're trying to establish an environment for developing and testing code as quickly as possible.
 
+    * It will also be much easier if you already have BusyBox installed on your device. There are several different ways to get it, but one installer is available on the Google Play store (https://play.google.com/store/apps/details?id=stericson.busybox&hl=en), and source code to build it yourself is available at: https://code.google.com/p/busybox-android/
+
 Installing the GNU Radio SDK filesystem on your device:
 
     *  In the chroot project, go to host_scripts.
@@ -22,7 +24,7 @@ Installing the GNU Radio SDK filesystem on your device:
 
         * input arguments summary:
 
-            *  img size... This the size of the filesystem... the SDK is between 2 and 4 GB at this time.
+            *  img size... This the size of the filesystem... the SDK is between 2 and 5 GB at this time.
 
             *  location of the sdk... This is the full path of the target system portion of the SDK. This is a subdirectory inside the SDK - for example this would be <path-to-SDK>/sysroots/armv7at2-vfp-neon-oe-linux-gnueabi/
 
