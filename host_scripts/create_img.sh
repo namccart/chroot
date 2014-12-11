@@ -35,6 +35,8 @@ echo "populating the img from ROOTFS..."
 sudo cp -r ${ROOTFS}/usr /mnt/sdk
 sudo cp -r ${ROOTFS}/bin /mnt/sdk
 sudo cp -r ${ROOTFS}/lib /mnt/sdk
+sudo cp -r ${ROOTFS}/sbin /mnt/sbin
+sudo mkdir /mnt/sdk/etc
 sudo mkdir /mnt/sdk/target
 sudo mkdir /mnt/sdk/proc
 sudo mkdir /mnt/sdk/dev
