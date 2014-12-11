@@ -22,9 +22,9 @@ Installing the GNU Radio SDK filesystem on your device:
 
         * input arguments summary:
 
-            *  img size... This the size of the filesystem... the SDK is between 2 and 4 GB at this time.
+            *  img size... This the size of the filesystem... the SDK is between 2 and 5 GB at this time.
 
-            *  location of the sdk... This is the full path of the "rootfs" portion of the SDK. An example is given but must be modified.
+            *  location of the sdk... This is the full path of the target system portion of the SDK. This is a subdirectory inside the SDK - for example this would be <path-to-SDK>/sysroots/armv7at2-vfp-neon-oe-linux-gnueabi/
 
         *  This operation takes between 3 and 5 minutes on a reasonable laptop.  It's okay.  You'll perform this step only as often as you need to update your SDK.
 
@@ -43,7 +43,7 @@ Installing the GNU Radio SDK filesystem on your device:
 
         *  on the host... 
 
-            *  >adb push sdk.img.tar.gz
+            *  >adb push sdk.img.tar.gz /sdcard/gnuradio
 
         *  ...and this operation takes another 5 or so minutes over usb 2.0.
 
@@ -61,7 +61,8 @@ Installing the GNU Radio SDK filesystem on your device:
         *  on the host...
 
             *  >adb push device_scripts /data/sdk/device_scripts
-            *  >adb push busybox /data/sdk  
+            *  >adb push busybox /data/sdk
+            *  >adb shell
             *  >su
             *  #chmod 766 busybox
             *  #chmod 777 device_scripts 
@@ -70,13 +71,10 @@ Installing the GNU Radio SDK filesystem on your device:
         
         *  on the device...
 
-        *  >/data/sdk/busybox gunzip sdk.img.tar.gz
+             *  cd /sdcard/gnuradio
+             *  >/data/sdk/busybox tar xf sdk.img.tar.gz
 
         *  ...and this operation takes another 5 or so minutes.
-
-        *  >/data/sdk/busybox tar -xvf sdk.img.tar
-
-        *  ...another few minutes.
 
 Using the GNU Radio SDK filesystem:
     
@@ -93,6 +91,8 @@ Using the GNU Radio SDK filesystem:
             *  >./prep.sh -s (to load a fresh sandbox)
             *  >./prep.sh (to chroot with an existing, unpacked sandbox)
             *  >./unprep.sh (to unmount the sdk and subdirectories after exiting chroot)
+
+         * If you want to skip creating a PyBOMBS sandbox, then just create a directory /sdcard/gnuradio/sdk_target
             
             *  command line options:
             
