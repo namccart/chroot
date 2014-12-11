@@ -24,7 +24,7 @@ Installing the GNU Radio SDK filesystem on your device:
 
             *  img size... This the size of the filesystem... the SDK is between 2 and 4 GB at this time.
 
-            *  location of the sdk... This is the full path of the "rootfs" portion of the SDK. An example is given but must be modified.
+            *  location of the sdk... This is the full path of the target system portion of the SDK. This is a subdirectory inside the SDK - for example this would be <path-to-SDK>/sysroots/armv7at2-vfp-neon-oe-linux-gnueabi/
 
         *  This operation takes between 3 and 5 minutes on a reasonable laptop.  It's okay.  You'll perform this step only as often as you need to update your SDK.
 
