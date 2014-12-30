@@ -39,6 +39,8 @@ Installing the GNU Radio SDK filesystem on your device:
             *  >su
             *  #chmod 777 gnuradio
 
+		* Note: Some stock images of Android, i.e. Android 5.0.1 use multiple filesystems, some of which may not support symbolic links (the 2013 Nexus 7 is an example). Verify that the gnuradio directory resides in an ext4 or similar file system by using the "mount" command. The /data directory should be a good candidate in most systems. 
+
     *  Now, transfer the archived disc image file to your device... You could do this via scp, adb, sshfs or any number of other tools.  We assume for the purposes of this README the device is running an Android OS, the host is connected via usb, and we use adb for communications with the device.
 
         *  on the host... 
